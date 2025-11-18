@@ -1,55 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_basic/src/core/router.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'Flutter Demo', home: const HomeScreen());
-  }
-}
-
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Dashboard')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Welcome, User 👋',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-
-            const Text(
-              'This is your first Flutter screen. Below are some buttons:',
-            ),
-
-            ElevatedButton(
-              onPressed: () {
-                print('Button 1 pressed');
-              },
-              child: const Text('Button 1'),
-            ),
-            const SizedBox(width: 8),
-            OutlinedButton(
-              onPressed: () {
-                print('Button 2 pressed');
-              },
-              child: const Text('Button 2'),
-            ),
-          ],
-        ),
-      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    final routerConfig = ref.watch(routerProvider);
+    return MaterialApp.router(
+      title: 'Flutter Demo',
+      routerConfig: routerConfig,
     );
   }
 }
